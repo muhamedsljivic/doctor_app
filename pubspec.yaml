@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   file_picker: ^5.2.3
+  internet_connection_checker: ^1.0.0+1
+  connectivity_plus: ^3.0.2
+  overlay_support: ^2.1.0
 
 dev_dependencies:
   flutter_test:
