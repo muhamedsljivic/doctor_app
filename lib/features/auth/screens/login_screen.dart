@@ -1,8 +1,9 @@
-import 'package:doctor_app/common/widgets/custom_textfield.dart';
+import 'package:doctor_app/main.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login-screen";
+
   const LoginScreen({super.key});
 
   @override
@@ -10,6 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isLoginValid = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -47,19 +49,62 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Column(
                       children: [
-                        CustomTextField(
-                          controller: _emailController,
-                          hintText: "E-mail",
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              hintText: "E-mail",
+                            ),
+                            maxLines: 1,
+                            validator: (value) {
+                              if (value!.isEmpty || !value.contains("@")) {
+                                setState(() {
+                                  isLoginValid = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isLoginValid = true;
+                                });
+                              }
+                            },
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        CustomTextField(
-                          controller: _passwordController,
-                          hintText: "Password",
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                              hintText: "Password",
+                            ),
+                            maxLines: 1,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 6) {
+                                setState(() {
+                                  isLoginValid = false;
+                                });
+                              } else {
+                                setState(() {
+                                  isLoginValid = true;
+                                });
+                              }
+                            },
+                          ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
+                        ),
+                        isLoginValid
+                            ? const Text("")
+                            : const Text(
+                                "Invalid e-mail or username",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -68,7 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   500]), //Colors.fromRGB ne radi kako treba
                           onPressed: () {
                             if (!_formKey.currentState!.validate()) {
-                              return;
+                              setState(() {
+                                isLoginValid = false;
+                              });
                             }
                           },
                           child: const Text(

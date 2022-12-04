@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
       debugShowCheckedModeBanner: false,
-      home: 2 == 1 ? const HomePage() : const LoginScreen(),
+      home: 1 == 1 ? const HomePage() : const LoginScreen(),
     );
   }
 }
